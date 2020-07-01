@@ -1,0 +1,36 @@
+{
+    "Customer": {
+      "credit": {
+        "initialLimit": 100,
+        "initialDays": 1
+      },
+      "sms": {
+        "secretKey": "app",
+        "userApiKey": "c3660c7c6df3c559a9800c7c",
+        "sendingNumber": "30004747479776",
+        "urls": {
+          "getTokenURL": "http://restfulsms.com/api/Token",
+          "sendCodeURL": "http://restfulsms.com/api/UltraFastSend",
+          "getCreditURL": "https://restfulsms.com/api/credit",
+          "getSendURL": "http://restfulsms.com/api/MessageSend"
+        },
+        "tempId": {
+          "code": {
+            "id": "22269",
+            "parameter": "VerificationCode"
+          }
+        }
+      },
+      "zarinpal": {
+        "sandbox":true,
+        "key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "redirectURL": "https://web.com",
+        "description": "A Payment from Node.JS",
+        "email": "hi@master.work",
+        "phone": "09120000000"
+      },
+      "firebase": {
+        "serverKey": ""
+      }
+    }
+  }
