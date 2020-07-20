@@ -103,7 +103,7 @@ const paymentVerification = async (req, res, next) => {
             }
     
         }).catch(err => {
-            console.error(err);
+            console.error(err)
         });
     })
 }

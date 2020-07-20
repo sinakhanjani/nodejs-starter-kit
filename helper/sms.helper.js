@@ -30,7 +30,7 @@ class SendMessageService {
         const res = await axios.post(this.getTokenURL, {
           UserApiKey: this.userApiKey,
           SecretKey: this.secretKey,
-        });
+        })
     
         if (!res.data.IsSuccessful) { 
             throw new Error(res.data.Message)

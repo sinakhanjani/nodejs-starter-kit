@@ -167,7 +167,10 @@ removeMe = async (req, res) => {
 }
 
 me = async (req, res) => {
-    const user = req.user
+    const user = req.user.toJSON()
+    user['purchaseId'] = user['purchase'];
+    delete user['purchase'];
+    
     const response = res.generic.add({ user })
 
     res

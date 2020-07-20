@@ -17,6 +17,14 @@ module.exports = (app) => {
     app.use('/api', purchaseRoute)
     app.use('/api', roomsRoute)
     app.use('/api', messagesRoute)
+    
+    app.use('/api', error, (req, res) => {
+        res.render('index', {
+            title: 'App Programing Interface.',
+            name: 'Sina Khanjani',
+            message: 'Use Postman for this API.'
+        })
+    })
 
     app.use('*', error, (req, res) => {
         res.render('404', {

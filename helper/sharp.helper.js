@@ -13,7 +13,7 @@ const compressJPG = (file,bounds) => {
         if (err) {
             
         }
-    });
+    })
     
     const dir = process.env.UPLOAD_FILE_DIRECTORY.substr(1)
     
