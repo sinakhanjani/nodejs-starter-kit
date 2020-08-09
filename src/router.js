@@ -34,5 +34,5 @@ module.exports = (app) => {
         })
     })
 
-    return app;
+    return app
 }

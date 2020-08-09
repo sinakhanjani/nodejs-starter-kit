@@ -24,7 +24,7 @@ hbs.registerPartials(partialsPath)
 const documentDirectory = process.env.UPLOAD_FILE_DIRECTORY
 app.use(`${documentDirectory.substr(1)}`,express.static(documentDirectory.substr(2)));
 
-// Setup static directory to serve
+// Setup static directory to server
 app.use(express.static(publicDirectoryPath))
 app.use(express.json())
 

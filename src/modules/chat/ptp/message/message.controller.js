@@ -1,4 +1,3 @@
-const Message = require('./message.model')
 const message = require('../../../../../helper/message.helper')
 const { serviceList } = require('./message.service')
 

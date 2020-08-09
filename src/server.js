@@ -2,8 +2,7 @@ const server = require('./io')
 const { host, port } = require('./app')
 
 // Listening server
-server.listen(port, () => {
-    
+server.listen(port, () => {  
     if (server.address().host) {
         process.env.HOST = server.address().host
     }

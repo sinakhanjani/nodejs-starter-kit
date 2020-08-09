@@ -1,16 +1,9 @@
-const Admin = require('./admin.model')
 const message = require('../../../helper/message.helper')
+const Service = require('../admin/admin.service')
 
 get = async (req, res) => {
     try {        
-        const count = parseInt(req.query.count)
-        const index = Math.max(0, req.query.index)
-        const admins = await Admin.find({})
-        .skip(count * index)
-        .limit(count)
-        .sort({
-            name: 'asc'
-        })
+        const admins = await Service.adminsList(req,res)
         const records = admins.length
         const response = res.generic.add({ admins })
         .withMessage(message.success.res)
@@ -21,7 +14,7 @@ get = async (req, res) => {
         .send(response)
     } catch (e) {
         const response = res.generic.unknown()
-
+        console.log(e);
         res
         .status(500)
         .send(response)
@@ -29,17 +22,11 @@ get = async (req, res) => {
 }
 
 add = async (req, res) => {
-    const admin = new Admin(req.body)
-
     try {
-        admin.username = admin.username.replace(/\s/g, '');
-        
-        await admin.save()           
-        const token = await admin.generateBasicToken()
-        const response = res.generic.add({
-            admin,
-            token
-        }).withMessage(message.added.res)
+        const addAdmin = await Service.addAdmin(req,res)
+        const response = res.generic
+        .add(addAdmin)
+        .withMessage(message.added.res)
         
         res
         .status(201)

@@ -115,8 +115,8 @@ update = async (req, res) => {
 
     try {
         updates.forEach((update) => req.user[update] = req.body[update])
+        
         const file = req.file
-
         if (file) {    
             user.recordJPG(file)
         }
@@ -234,6 +234,7 @@ removeImages = async (req, res) => {
         await user.save()
         
         const response = res.generic.add({ user })
+
         res
         .status(200)
         .send(response)

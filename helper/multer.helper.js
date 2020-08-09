@@ -22,7 +22,7 @@ const generateAuthCode = () => {
 
 const storage = multer.diskStorage({
     limits: {
-        fileSize: 1000000
+        fileSize: 10000000
     },
     
     destination(req, file, cb) {

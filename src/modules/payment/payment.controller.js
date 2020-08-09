@@ -2,8 +2,9 @@ const zarinpal = require('../../../helper/zarinpal.helper')
 const message = require('../../../helper/message.helper')
 const config = require('config')
 const Payment = require('../payment/payment.model')
+const Service = require('../payment/payment.service')
 
-const paymentRequest = async (req, res, next) => {
+const paymentRequest = async (req, res) => {
     
     if (!req.query.amount) {
         const response = res.generic.unSuccess(message.badInput.res)
@@ -13,49 +14,36 @@ const paymentRequest = async (req, res, next) => {
         .send(response)
     }
 
-    zarinpal.PaymentRequest({
-        Amount: req.query.amount, // In Tomans
-        CallbackURL: config.get('Customer.zarinpal.redirectURL'),
-        Description: config.get('Customer.zarinpal.description'),
-        Email: config.get('Customer.zarinpal.email'),
-        Mobile: config.get('Customer.zarinpal.phone')
-      }).then(bank => {
-        /*
-        {
-          status: 100,
-          authority: '000000000000000000000000000000088531',
-          url: 'https://sandbox.zarinpal.com/pg/StartPay/000000000000000000000000000000088531'
-        }   
-        */
-        if (bank.status === 100) {
-            const payment = new Payment({
-                authority: bank.authority,
-                status: false,
-                phone: (req.user) ? req.user.phone: config.get('Customer.zarinpal.phone'),
-                amount: req.query.amount
-            })
+    try {
+        const bank = await zarinpal.PaymentRequest({
+            Amount: req.query.amount, // In Tomans
+            CallbackURL: config.get('Customer.zarinpal.redirectURL'),
+            Description: config.get('Customer.zarinpal.description'),
+            Email: config.get('Customer.zarinpal.email'),
+            Mobile: config.get('Customer.zarinpal.phone')
+          })
 
-            payment.save().then((pay) => {
-                const response = res.generic.add({
-                    payment: {
-                        ...payment.toJSON(),
-                        bankURL: bank.url,
-                        trackId: pay._id.toString()
-                    }
-                })
-            
-                return res
-                .status(200)
-                .send(response)
+          if (bank.status === 100) {
+            const { pay , payment } = await Service.addPaymentRequest(req,res,bank)
+            const response = res.generic.add({
+                payment: {
+                    ...payment.toJSON(),
+                    bankURL: bank.url,
+                    trackId: pay._id.toString()
+                }
             })
+        
+            return res
+            .status(200)
+            .send(response)
         }
-    }).catch(err => {
+    } catch (e) {
         const response = res.generic.unknown()
 
         return res
         .status(message.unknown.code)
         .send(response)
-    });
+    }
 }
 
 const paymentVerification = async (req, res, next) => {
