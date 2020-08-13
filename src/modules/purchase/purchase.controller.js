@@ -1,18 +1,10 @@
-const Purchase = require('./purchase.model')
 const message = require('../../../helper/message.helper')
-const { ObjectId } = require('mongodb')
+const Service = require('../purchase/purchases.service')
 
 get = async (req, res) => {
     try {        
-        const count = parseInt(req.query.count)
-        const index = Math.max(0, req.query.index)
-        const purchases = await Purchase.find({})
-        .skip(count * index)
-        .limit(count)
-        .sort({
-            name: 'asc'
-        })
-        const records = await Purchase.countDocuments()
+        const purchases =  await Service.purchases(req,res)
+        const records = purchases.length
         const response = res.generic.add({ purchases })
         .withMessage(message.success.res)
         .addRecord(records)
@@ -22,7 +14,6 @@ get = async (req, res) => {
         .send(response)
     } catch (e) {
         const response = res.generic.unknown()
-
         res
         .status(500)
         .send(response)
@@ -31,9 +22,7 @@ get = async (req, res) => {
 
 add = async (req, res) => {
     try {        
-        const purchase = new Purchase(req.body)
-        await purchase.save()
-
+        const purchase = await Service.purchase(req,res)
         const response = res.generic.add({ purchase })
 
         res
@@ -41,8 +30,6 @@ add = async (req, res) => {
         .send(response)
     } catch (e) {
         const response = res.generic.unknown()
-console.log(e);
-
         res
         .status(500)
         .send(response)

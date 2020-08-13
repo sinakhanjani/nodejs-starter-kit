@@ -1,17 +1,10 @@
-const Task = require('./task.model')
 const message = require('../../../helper/message.helper')
+const Service = require('../task/task.service')
 
 get = async (req, res) => {
     try {        
-        const count = parseInt(req.query.count)
-        const index = Math.max(0, req.query.index)
-        const tasks = await Task.find({})
-        .skip(count * index)
-        .limit(count)
-        .sort({
-            name: 'asc'
-        })
-        const records = await Task.countDocuments()
+        const tasks = await Service.tasks(req,res)
+        const records = tasks.length
         const response = res.generic.add({ tasks })
         .withMessage(message.success.res)
         .addRecord(records)
@@ -30,11 +23,7 @@ get = async (req, res) => {
 
 add = async (req, res) => {
     try {        
-        const task = new Task({
-            ...req.body,
-            user: req.user._id
-        })
-        await task.save()
+        const task = await Service.addTask(req,res)
         const response = res.generic.add({ task })
 
         res
@@ -58,11 +47,8 @@ user = async (req, res) => {
             .status(500)
             .send(response)
         }   
-
-        const task = await Task.findById(req.params.id)                      
-        await task.populate('user').execPopulate()
-        const user = task.user
-                
+        
+        const user = await Service.user(req,res)
         const response = res.generic.add({ user })
 
         res
@@ -86,12 +72,8 @@ task = async (req, res) => {
             return res
             .status(500)
             .send(response)
-        }   
-
-        const task = await Task.findOne({ _id, user: req.user._id })
-        await task.populate('todos').execPopulate()       
-                 
-        const todos = task.todos
+        }
+        const task = await Service.task(req,res)
 
         if (!task) {
             const response = res.generic.notFound()
@@ -101,18 +83,13 @@ task = async (req, res) => {
             .send(response)
         }
         
-        const response = res.generic.add({ 
-            task: {
-                ...task.toJSON(),
-                todos
-            }
-         })
+        const response = res.generic.add(task)
 
         res
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.generic.unSuccess(e.message)
 
         res
         .status(500)
@@ -122,40 +99,7 @@ task = async (req, res) => {
 
 tasks = async (req, res) => {
     try {
-        const check = req.query.check        
-        const user = req.user
-        const count = parseInt(req.query.count)
-        const index = Math.max(0, req.query.index)
-        const match = {}
-        const sort = {}
-
-        if (check) {            
-            match.check = check === 'true'
-        }
-        // sortBy?createdAt:desc || asc
-        // sortBy?check:desc || asc
-        if (req.query.sortBy) {
-            const parts = req.query.sortBy.split(':')
-            sort[parts[0]] = parts[1] === 'desc' ? -1:1
-        }
-        
-        await user.populate({
-            path: 'tasks',
-            // match: {
-            //     check: match.check
-            // }
-            match,
-            options: {
-                limit: parseInt(count),
-                skip: parseInt(count * index),
-                // sort: {
-                //     createdAt: -1 // reverse,
-                //     check: -1 // reverse check
-                // }
-                sort
-            }
-        }).execPopulate()       
-        const tasks = user.tasks
+        const tasks = await Service.userTasks(req,res)
 
         if (!tasks) {
             const response = res.generic.notFound()

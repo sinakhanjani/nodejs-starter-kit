@@ -45,7 +45,6 @@ add = async (req, res) => {
         .send(response)
     } catch (e) {
         const response = res.generic.unknown()
-console.log(e);
 
         res
         .status(500)
