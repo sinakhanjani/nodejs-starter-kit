@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../modules/user/user.model')
-const Generic = require('../model/generic')
+const Response = require('../model/Response')
 const message = require('../../helper/message.helper')
 const error = require('../middleware/error')
 
@@ -20,7 +20,12 @@ const auth = async (req, res, next) => {
 
         await error(req,res,next)
     } catch (e) {        
-        const response = Generic.unSuccess(message.authenticate.res)
+        const response = new Response()
+        .unSuccess(
+            message
+            .authenticate
+            .res)
+            
         res.status(401).send(response)
     }
 }

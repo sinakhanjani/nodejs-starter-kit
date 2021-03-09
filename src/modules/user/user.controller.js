@@ -4,19 +4,13 @@ const Verify = require('../../model/verify')
 const message = require('../../../helper/message.helper')
 const sms = require('../../../helper/sms.helper')
 const utils = require('../../../helper/utils.helper')
+const Service = require('./user.service')
 
 get = async (req, res) => {
     try {    
-        const count = parseInt(req.query.count)
-        const index = Math.max(0, req.query.index)
-        const users = await User.find({})
-        .skip(count * index)
-        .limit(count)
-        .sort({
-            name: 'asc'
-        })
+        const users = await Service.get(req,res)
         const records = users.length
-        const response = res.generic.add({ users })
+        const response = res.Response.add({ users })
         .withMessage(message.success.res)
         .addRecord(records)
     
@@ -24,7 +18,7 @@ get = async (req, res) => {
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
 
         res
         .status(500)
@@ -32,26 +26,18 @@ get = async (req, res) => {
     }
 }
 
-add = async (req, res) => {    
-    const user = new User(req.body)
-    
+add = async (req, res) => {        
     try {
-        const file = req.file
-
-        if (file) {
-            user.recordJPG(file)
-        }
-
-        await user.save()
+        const user = await Service.add(req,res)
         const token = await user.generateAuthToken()
 
-        const response = res.generic.add({
+        const response = res.Response.add({
             user,
             token
         }).withMessage(message.added.res)
 
         res
-        .status(201)
+        .status(200)
         .send(response)
     } catch (e) {
         let msg = ''
@@ -68,7 +54,7 @@ add = async (req, res) => {
             msg = message.unsend.res
         }
 
-        const response = res.generic.unSuccess(msg)
+        const response = res.Response.unSuccess(msg)
         
         res
         .status(400)
@@ -79,20 +65,14 @@ add = async (req, res) => {
 //'/user/remove/:id'
 remove = async (req, res) => {
     try {
-        const user = await User.findOneAndDelete({ _id: req.params.id })
-
-        if (!user) {
-            const response = res.generic.unSuccess(message.notFound.res)
-            res.status(404).send(response)
-        }
-
-        const response = res.generic.add({ user }).withMessage(message.removed.res)
+        const user = await Service.remove(req,res)
+        const response = res.Response.add({ user }).withMessage(message.removed.res)
 
         res
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unSuccess(message.notRemoved.res)
+        const response = res.Response.unSuccess(message.notRemoved.res)
 
         res
         .status(500)
@@ -110,7 +90,7 @@ update = async (req, res) => {
         
         return res
         .status(400)
-        .send(res.generic.unSuccess(msg))
+        .send(res.Response.unSuccess(msg))
     }
 
     try {
@@ -123,7 +103,7 @@ update = async (req, res) => {
 
         await req.user.save()
         const user = req.user
-        const response = res.generic.add({ user })
+        const response = res.Response.add({ user })
 
         res
         .status(200)
@@ -144,7 +124,7 @@ update = async (req, res) => {
 
         res
         .status(400)
-        .send(res.generic.unSuccess(msg))
+        .send(res.Response.unSuccess(msg))
     }
 }
 
@@ -152,13 +132,13 @@ removeMe = async (req, res) => {
     try {
         await req.user.remove()
         const user = req.user
-        const response = res.generic.add({ user }).withMessage(message.removed.res)
+        const response = res.Response.add({ user }).withMessage(message.removed.res)
 
         res
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
 
         res
         .status(500)
@@ -170,8 +150,7 @@ me = async (req, res) => {
     const user = req.user.toJSON()
     user['purchaseId'] = user['purchase'];
     delete user['purchase'];
-    
-    const response = res.generic.add({ user })
+    const response = res.Response.add({ user })
 
     res
     .status(200)
@@ -181,13 +160,13 @@ me = async (req, res) => {
 removeDocuments = async (req, res) => {
     try {        
         await User.deleteMany({})
-        const response = res.generic.success()
+        const response = res.Response.success()
 
         res
         .status(200)
         .send(response)
     } catch (e) {                
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
 
         res
         .status(500)
@@ -199,7 +178,7 @@ addImages = async (req, res) => {
     try {
         const files = req.files    
         if (!files) {
-            const response = res.generic.unknown()
+            const response = res.Response.unknown()
 
             return res
             .status(500)
@@ -209,13 +188,13 @@ addImages = async (req, res) => {
         req.user.addRecordJPGS(files)
         req.user.save()
         const user = req.user
-        const response = res.generic.add({ user })
+        const response = res.Response.add({ user })
 
         res
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unSuccess(message.unknown.res)
+        const response = res.Response.unSuccess(message.unknown.res)
 
         res
         .status(500)
@@ -233,13 +212,13 @@ removeImages = async (req, res) => {
         user.imagesURL.id(_id).remove()
         await user.save()
         
-        const response = res.generic.add({ user })
+        const response = res.Response.add({ user })
 
         res
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unSuccess(message.notFound.res)
+        const response = res.Response.unSuccess(message.notFound.res)
         
         res
         .status(500)
@@ -253,7 +232,7 @@ createImages = async (req, res) => {
         const files = req.files    
         
         if (!files) {
-            const response = res.generic.unknown()
+            const response = res.Response.unknown()
 
             return res
             .status(500)
@@ -263,12 +242,12 @@ createImages = async (req, res) => {
         req.user.createRecordJPGS(files)
         await user.save()
 
-        const response = res.generic.add({ user })
+        const response = res.Response.add({ user })
         res
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
 
         res
         .status(500)
@@ -283,12 +262,12 @@ tasks = async (req, res) => {
         await user.populate('tasks').execPopulate()
         const tasks = user.tasks
 
-        const response = res.generic.add({ tasks })
+        const response = res.Response.add({ tasks })
         res
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
         console.log(e);
         
         res
@@ -316,7 +295,7 @@ sendCode = async (req, res) => {
             await Verify.findOneAndUpdate({ phone }, { code: undefined })
         },60000)
 
-        const response = res.generic.success().withMessage(message.register.res)
+        const response = res.Response.success().withMessage(message.register.res)
 
         res
         .status(200)
@@ -326,7 +305,7 @@ sendCode = async (req, res) => {
         if (e.errors) {
             msg = e.errors.phone.message
         }
-        const response = res.generic.unSuccess(msg)
+        const response = res.Response.unSuccess(msg)
         
         res
         .status(500)
@@ -343,7 +322,7 @@ verifyCode = async (req, res) => {
         const verify = await Verify.findOne({ phone })
 
         if (!verify) {
-            const response = res.generic.unSuccess(message.badCode.res)
+            const response = res.Response.unSuccess(message.badCode.res)
 
             return res
             .status(500)
@@ -351,7 +330,7 @@ verifyCode = async (req, res) => {
         }
 
         if (!verify.code) {
-            const response = res.generic.unSuccess(message.expiredCode.res)
+            const response = res.Response.unSuccess(message.expiredCode.res)
 
             return res
             .status(500)
@@ -359,7 +338,7 @@ verifyCode = async (req, res) => {
         }
 
         if (verify.code !== code) {
-            const response = res.generic.unSuccess(message.badCode.res)
+            const response = res.Response.unSuccess(message.badCode.res)
 
             return res
             .status(500)
@@ -381,7 +360,7 @@ verifyCode = async (req, res) => {
         }
         user.fcmToken = fcmToken
         const token = await user.generateAuthToken()
-        const response = res.generic.add({
+        const response = res.Response.add({
             user,
             token
         }).withMessage(msg)
@@ -393,7 +372,7 @@ verifyCode = async (req, res) => {
         .status(200)
         .send(response)
     } catch (e) {        
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
         res
         .status(500)
         .send(response)
@@ -407,7 +386,7 @@ addPurchase = async (req, res) => {
         const user = req.user
 
         if (!_id) {
-            const response = res.generic.unknown()
+            const response = res.Response.unknown()
 
             return res
             .status(500)
@@ -419,13 +398,13 @@ addPurchase = async (req, res) => {
         await user.save()
         await user.populate('purchase').execPopulate()       
 
-        const response = res.generic.add({ user })
+        const response = res.Response.add({ user })
 
         res
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
         console.log(e);
         
         res

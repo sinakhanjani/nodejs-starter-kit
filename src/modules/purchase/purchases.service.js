@@ -1,7 +1,6 @@
 const Purchase = require('./purchase.model')
 
 class Service {
-
     static purchases = async (req,res) => {
         try {
             const count = parseInt(req.query.count)

@@ -7,7 +7,7 @@ const serviceList = async (req, res) => {
     const roomId = req.query.roomId
 
     if (!roomId) {
-        const response = res.generic.unSuccess(message.notFound.res)
+        const response = res.Response.unSuccess(message.notFound.res)
 
         return res
         .status(500)

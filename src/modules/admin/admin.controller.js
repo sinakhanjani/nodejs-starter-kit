@@ -5,7 +5,7 @@ get = async (req, res) => {
     try {        
         const admins = await Service.adminsList(req,res)
         const records = admins.length
-        const response = res.generic.add({ admins })
+        const response = res.Response.add({ admins })
         .withMessage(message.success.res)
         .addRecord(records)
 
@@ -13,8 +13,8 @@ get = async (req, res) => {
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
-        console.log(e);
+        const response = res.Response.unknown()
+
         res
         .status(500)
         .send(response)
@@ -24,7 +24,7 @@ get = async (req, res) => {
 add = async (req, res) => {
     try {
         const addAdmin = await Service.addAdmin(req,res)
-        const response = res.generic
+        const response = res.Response
         .add(addAdmin)
         .withMessage(message.added.res)
         
@@ -45,7 +45,7 @@ add = async (req, res) => {
                 msg = message.duplicated.res
             }
         }
-        const response = res.generic.unSuccess(msg)
+        const response = res.Response.unSuccess(msg)
 
         res
         .status(400)

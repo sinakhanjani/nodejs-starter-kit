@@ -5,7 +5,7 @@ rooms = async (req, res) => {
     try {        
         const rooms = await roomsList(req,res)
         const records = rooms.length
-        const response = res.generic.add({ rooms })
+        const response = res.Response.add({ rooms })
         .withMessage(message.success.res)
         .addRecord(records)
         
@@ -13,7 +13,7 @@ rooms = async (req, res) => {
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
 
         res
         .status(500)

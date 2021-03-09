@@ -3,7 +3,6 @@ const zarinpal = require('../../../helper/zarinpal.helper')
 const Payment = require('../payment/payment.model')
 
 class Service {
-
     static addPaymentRequest = async (req,res) => {
         const bank = await zarinpal.PaymentRequest({
             Amount: req.query.amount, // In Tomans

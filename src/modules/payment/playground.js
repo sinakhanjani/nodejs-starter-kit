@@ -6,7 +6,7 @@
 // const paymentRequest = async (req, res, next) => {
     
 //     if (!req.query.amount) {
-//         const response = res.generic.unSuccess(message.badInput.res)
+//         const response = res.Response.unSuccess(message.badInput.res)
         
 //         return res
 //         .status(500)
@@ -36,7 +36,7 @@
 //             })
 
 //             payment.save().then((pay) => {
-//                 const response = res.generic.add({
+//                 const response = res.Response.add({
 //                     payment: {
 //                         ...payment.toJSON(),
 //                         bankURL: bank.url,
@@ -50,7 +50,7 @@
 //             })
 //         }
 //     }).catch(err => {
-//         const response = res.generic.unknown()
+//         const response = res.Response.unknown()
 
 //         return res
 //         .status(message.unknown.code)
@@ -60,7 +60,7 @@
 
 // const paymentVerification = async (req, res, next) => {
 //     if (!req.query.trackId) {
-//         const response = res.generic.unSuccess(message.badInput.res)
+//         const response = res.Response.unSuccess(message.badInput.res)
 
 //         return res
 //         .status(500)
@@ -80,7 +80,7 @@
 //             */
 //             if (bank.status !== 100 && bank.status !== 101) {
 //                 const msg = error(bank.status)
-//                 const response = res.generic.unSuccess(msg)
+//                 const response = res.Response.unSuccess(msg)
     
 //                 res
 //                 .status(400)
@@ -89,7 +89,7 @@
 //                 pay.status = true
 //                 pay.save()
 
-//                 const response = res.generic.add({
+//                 const response = res.Response.add({
 //                     payment: {
 //                         ...pay.toJSON(),
 //                         refId: bank.RefID,

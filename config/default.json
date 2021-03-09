@@ -24,7 +24,7 @@
       "zarinpal": {
         "sandbox":true,
         "key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-        "redirectURL": "https://web.com",
+        "redirectURL": "http://localhost:3000/payment",
         "description": "A Payment from Node.JS",
         "email": "hi@master.work",
         "phone": "09120000000"

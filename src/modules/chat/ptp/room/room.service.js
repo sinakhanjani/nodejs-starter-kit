@@ -22,7 +22,7 @@ const roomsList = async (req, res) => {
         const users = {
             sender: {
                 _id: room.users.sender._id,
-                name: (room.users.sender.name) ? room.users.sender.name:'no name',
+                name: (room.users.sender.name) ? room.users.sender.name:'no.name',
                 phone: room.users.sender.phone,
                 imageURL: room.users.sender.imageURL
             },

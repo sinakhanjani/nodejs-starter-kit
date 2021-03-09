@@ -8,6 +8,6 @@ server.listen(port, () => {
     }
 
     const $host = server.address().host || host
-    const message = `Server: ${$host} is running on port: ${port}`
+    const message = `Socket: ${$host} is opening on port: ${port}`
     console.log(message);
 })

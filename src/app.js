@@ -2,8 +2,10 @@ const express = require('express')
 const path = require('path')
 const router = require('./router')
 const hbs = require('hbs')
-require('./playground')
+
+require('./playground/playground')
 require('../db/mongoose')
+require('../db/sequelizeORM')
 
 // Setup express
 const app = express()

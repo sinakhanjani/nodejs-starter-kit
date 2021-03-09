@@ -117,13 +117,12 @@ userSchema.methods.addRecordJPGS = function(files) {
     const imagesURL = files.map((file) => {
         const baseURL = `/${file.path}`
         const thumbURL = compressJPG(file,300)
-        const imageURL = { 
+
+        return { 
             baseURL,
             thumbURL
         }
-
-        return imageURL
-    });
+    })
 
     user.imagesURL = imagesURL         
 }

@@ -26,6 +26,15 @@ module.exports = (app) => {
         })
     })
 
+    app.use('/payment', error, (req, res) => {
+        res.render('payment', {
+            title: 'پرداخت امن درگاه بانکی',
+            name: 'توسعه دهنده سینا خانجانی',
+            message: (res.message) ? res.message: 'پرداخت شما ناموفق بود'
+
+        })
+    })
+
     app.use('*', error, (req, res) => {
         res.render('404', {
             title: '404',

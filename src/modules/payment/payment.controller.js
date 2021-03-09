@@ -4,7 +4,7 @@ const Service = require('../payment/payment.service')
 const paymentRequest = async (req, res) => {
     
     if (!req.query.amount) {
-        const response = res.generic.unSuccess(message.badInput.res)
+        const response = res.Response.unSuccess(message.badInput.res)
         
         return res
         .status(500)
@@ -15,7 +15,7 @@ const paymentRequest = async (req, res) => {
         const { pay , payment, bank } = await Service.addPaymentRequest(req,res)
 
           if (bank.status === 100) {
-            const response = res.generic.add({
+            const response = res.Response.add({
                 payment: {
                     ...payment.toJSON(),
                     bankURL: bank.url,
@@ -28,7 +28,7 @@ const paymentRequest = async (req, res) => {
             .send(response)
         }
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
 
         return res
         .status(message.unknown.code)
@@ -38,7 +38,7 @@ const paymentRequest = async (req, res) => {
 
 const paymentVerification = async (req, res, next) => {
     if (!req.query.trackId) {
-        const response = res.generic.unSuccess(message.badInput.res)
+        const response = res.Response.unSuccess(message.badInput.res)
 
         return res
         .status(500)
@@ -46,7 +46,7 @@ const paymentVerification = async (req, res, next) => {
     }
     try {
         const payment = await Service.checkPaymentVerification(req,res)
-        const response = res.generic.add({
+        const response = res.Response.add({
             payment
         }).withMessage(`success payment with a trackId: ${payment.trackId}, refId: ${payment.refId}`)
     
@@ -54,7 +54,7 @@ const paymentVerification = async (req, res, next) => {
         .status(200)
         .send(response)
     } catch(e) {
-        const response = res.generic.unSuccess(e.message)
+        const response = res.Response.unSuccess(e.message)
         console.log(e);
         return res
         .status(message.unknown.code)

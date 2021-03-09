@@ -11,7 +11,8 @@ class Utils {
         while (authCode < 1000) {
           authCode = Math.floor(Math.random() * 10000);
         }
-        return authCode;
+        
+        return authCode
     }
 }
 

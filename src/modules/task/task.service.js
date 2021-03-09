@@ -1,7 +1,6 @@
 const Task = require('./task.model')
 
 class Service {
-
     static tasks = async (req,res) => {
         try {
             const count = parseInt(req.query.count)

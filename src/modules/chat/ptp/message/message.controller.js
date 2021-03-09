@@ -5,7 +5,7 @@ messages = async (req, res) => {
     try {        
         const messages = await serviceList(req,res)
         const records = messages.length
-        const response = res.generic.add({ messages })
+        const response = res.Response.add({ messages })
         .withMessage(message.success.res)
         .addRecord(records)
         
@@ -13,7 +13,7 @@ messages = async (req, res) => {
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
 
         res
         .status(500)

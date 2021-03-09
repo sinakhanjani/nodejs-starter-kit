@@ -5,7 +5,7 @@ get = async (req, res) => {
     try {        
         const purchases =  await Service.purchases(req,res)
         const records = purchases.length
-        const response = res.generic.add({ purchases })
+        const response = res.Response.add({ purchases })
         .withMessage(message.success.res)
         .addRecord(records)
         
@@ -13,7 +13,7 @@ get = async (req, res) => {
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
         res
         .status(500)
         .send(response)
@@ -23,13 +23,13 @@ get = async (req, res) => {
 add = async (req, res) => {
     try {        
         const purchase = await Service.purchase(req,res)
-        const response = res.generic.add({ purchase })
+        const response = res.Response.add({ purchase })
 
         res
         .status(200)
         .send(response)
     } catch (e) {
-        const response = res.generic.unknown()
+        const response = res.Response.unknown()
         res
         .status(500)
         .send(response)

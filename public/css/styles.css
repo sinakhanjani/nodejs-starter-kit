@@ -1,17 +1,51 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: "IRANYekanMobile-Bold";
+    src: url("IRANYekanMobileExtraBold.ttf") format("truetype");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "IRANYekanMobile-Medium";
+    src: url("IRANYekanMobileMedium.ttf") format("truetype");
+    font-weight: 700;
+}
+
 body {
     color: #333333;
     font-family: arial;
-    max-width: 650px;
+    /* max-width: 650px; */
+    font-family: "IRANYekanMobile-Bold";
     margin: 0 auto;
     padding: 0 16px;
-
     display: flex;
     flex-direction: column;
-    min-height: 100vh
+    min-height: 100vh;
+    /* background: linear-gradient(to top, rgba(80, 68, 18, 0.6) 10%, transparent),
+    url("../img/background.jpg") center/cover no-repeat border-box,
+    #ff1b68;
+    width: 100vw;
+    height: 100vh; */
+    background-color: aquamarine;
 }
 
-.main-content {
+.main-content, .main-body {
+    align-items: center;
+    text-align: center;
     flex-grow: 1;
+}
+
+.main-image {
+    align-items: center;
+    margin: auto;
+}
+
+.main-image__img {
+    width: 100px;
+    height: 100px;
 }
 
 footer {
@@ -31,10 +65,14 @@ h1 {
     margin-bottom: 16px;
 }
 
+p {
+    font-family: "IRANYekanMobile-Medium";
+}
+
 header a {
     color: #888888;
     margin-right: 16px;
-    text-decoration: none;
+    /* text-decoration: none; */
 }
 
 .portrait {
@@ -50,6 +88,19 @@ button {
     cursor: pointer;
     border: 1px solid #888888;
     background: #888888;
+    border-radius: 4px;
     color: white;
-    padding: 8px;
+    padding: 16px 32px;
+    font-family: "IRANYekanMobile-Bold";
+    font-size: 16px;
+}
+
+
+@media (max-width: 40rem) {
+    h1 {
+        font-size: 48px;
+    }
+    button {
+        padding: 14px 22px;
+    }
 }

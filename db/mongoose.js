@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const Admin = require('../src/modules/admin/admin.model');
 
+// The Best Documentation for mondoDB
+// https://studio3t.com/knowledge-base/articles/mongodb-aggregation-framework/
+
 // database connection
 mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
@@ -8,7 +11,7 @@ mongoose.connect(process.env.MONGODB_URL, {
     useFindAndModify: false,
     useUnifiedTopology: true
 }).catch((err) => {
-    console.log(err);
+    console.log(err)
 })
 
 mongoose.connection.on('connected', async () => {
