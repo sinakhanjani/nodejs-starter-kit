@@ -1,6 +1,9 @@
+// Importing required modules and dependencies
 const mongoose = require('mongoose')
+// Importing required modules and dependencies
 const message = require('../../../../../helper/message.helper')
 
+// Importing required modules and dependencies
 const messageSchema = new mongoose.Schema({
     message: {
         type: String,
@@ -25,8 +28,10 @@ const messageSchema = new mongoose.Schema({
     timestamps: true
 })
 
-messageSchema.methods.toJSON = function () {
+const messageSchema.methods.toJSON = = () {
+// Importing required modules and dependencies
     const msg = this
+// Importing required modules and dependencies
     const object = msg.toObject()
 
     delete object.updatedAt
@@ -36,6 +41,7 @@ messageSchema.methods.toJSON = function () {
     return object
 }
 
+// Importing required modules and dependencies
 const Message = mongoose.model('Message', messageSchema)
 
 module.exports = Message

@@ -1,9 +1,14 @@
+// Importing required modules and dependencies
 const Room = require('./room.model')
 
+// Importing required modules and dependencies
 const roomsList = async (req, res) => {
+// Importing required modules and dependencies
     const count = parseInt(req.query.count)
+// Importing required modules and dependencies
     const index = Math.max(0, req.query.index)
-    const fetchs = await Room.find({ 
+// Importing required modules and dependencies
+    const fetchs = await Room.find({
         $or: [
             { 'users.sender': req.user._id },
             { 'users.receiver': req.user._id }
@@ -17,8 +22,10 @@ const roomsList = async (req, res) => {
         name: 'asc'
     })
     .exec()
-    
-    const rooms = fetchs.map((room) => {   
+
+// Importing required modules and dependencies
+    const rooms = fetchs.map((room) => {
+// Importing required modules and dependencies
         const users = {
             sender: {
                 _id: room.users.sender._id,

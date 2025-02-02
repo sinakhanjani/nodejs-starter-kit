@@ -1,6 +1,9 @@
+// Importing required modules and dependencies
 const mongoose = require('mongoose')
+// Importing required modules and dependencies
 const message = require('../../../helper/message.helper')
 
+// Importing required modules and dependencies
 const purchaseSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -12,6 +15,7 @@ const purchaseSchema = new mongoose.Schema({
     timestamps: true
 })
 
+// Importing required modules and dependencies
 const Purchase = mongoose.model('Purchase', purchaseSchema)
 
 module.exports = Purchase

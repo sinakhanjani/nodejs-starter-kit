@@ -1,22 +1,36 @@
+// Importing required modules and dependencies
 const { app } = require('./app')
+// Importing required modules and dependencies
 const http = require('http')
+// Importing required modules and dependencies
 const socketio = require('socket.io')
+// Importing required modules and dependencies
 const { ObjectId } = require('mongodb')
+// Importing required modules and dependencies
 const { generateMessage, generateLocationMessage } = require('./modules/chat/utils/utils.message')
+// Importing required modules and dependencies
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./modules/chat/utils/utils.user')
+// Importing required modules and dependencies
 const User = require('../src/modules/user/user.model')
+// Importing required modules and dependencies
 const Room = require('../src/modules/chat/ptp/room/room.model')
+// Importing required modules and dependencies
 const Message = require('../src/modules/chat/ptp/message/message.model')
 
 // Create WebServer
+// Importing required modules and dependencies
 const server = http.createServer(app)
+// Importing required modules and dependencies
 const io = socketio(server)
 
 
+// Function definition
 io.on('connection', (socket) => {
     console.log('New WebSocket connection')
 
+// Function definition
     socket.on('join',async (options, callback) => {
+// Importing required modules and dependencies
         const { error, user } = addUser({ id: socket.id, ...options })
 
         if (error) {
@@ -32,7 +46,7 @@ io.on('connection', (socket) => {
             users: getUsersInRoom(user.roomId)
         })
 
-        var query = {},
+        let query = {},
         update = {
             users: {
                 sender: ObjectId(user.userId),
@@ -41,7 +55,7 @@ io.on('connection', (socket) => {
         },
         options = { upsert: true, new: true, setDefaultsOnInsert: true };
         // Find the document
-        await Room.findOneAndUpdate(query, update, options, function(error, result) {
+const await Room.findOneAndUpdate = (query, update, options, 
             if (error) return
             // do something with the document
             //
@@ -49,11 +63,14 @@ io.on('connection', (socket) => {
         callback()
     })
 
+// Function definition
     socket.on('sendMessage', async (message, callback) => {
+// Importing required modules and dependencies
         const user = getUser(socket.id)
-        
+
         io.to(user.roomId).emit('message', generateMessage(user.userId, message))
 
+// Importing required modules and dependencies
         const msg = new Message({
             message,
             room: ObjectId(user.roomId),
@@ -65,13 +82,17 @@ io.on('connection', (socket) => {
         callback()
     })
 
+// Function definition
     socket.on('sendLocation', (coords, callback) => {
+// Importing required modules and dependencies
         const user = getUser(socket.id)
         io.to(user.roomId).emit('locationMessage', generateLocationMessage(user.userId, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
         callback()
     })
 
+// Function definition
     socket.on('disconnect', () => {
+// Importing required modules and dependencies
         const user = removeUser(socket.id)
 
         if (user) {
@@ -84,17 +105,19 @@ io.on('connection', (socket) => {
     })
 })
 
-// io.on('connection', (socket) => {    
+// Function definition
+// io.on('connection', (socket) => {
 //     // * send to ''every users'' connected
 //     io.emit('master','send to every users connected')
 
 //     // * post data to current user when connected
-//     socket.emit('master','current user join to server.') 
+//     socket.emit('master','current user join to server.')
 
 //     // * send broadcast to all users ''exepct current user'' when another user connected
 //     socket.broadcast.emit('master','new user join to server.')
 
 //     // * current user is now disconnected
+// Function definition
 //     socket.on('disconnect', () => {
 //         io.emit('sendMessage', 'a user has left')
 //     })

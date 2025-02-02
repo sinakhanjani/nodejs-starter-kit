@@ -1,10 +1,17 @@
+// Importing required modules and dependencies
 const mongoose = require('mongoose')
+// Importing required modules and dependencies
 const validator = require('validator')
+// Importing required modules and dependencies
 const bcrypt = require('bcryptjs')
+// Importing required modules and dependencies
 const message = require('../../../helper/message.helper')
+// Importing required modules and dependencies
 const Moment = require('moment')
+// Importing required modules and dependencies
 const PersianDate = require('persian-date')
 
+// Importing required modules and dependencies
 const adminSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -41,26 +48,31 @@ const adminSchema = new mongoose.Schema({
     timestamps: true
 })
 
-adminSchema.methods.generateBasicToken = async function () {
+const adminSchema.methods.generateBasicToken = async = () {
+// Importing required modules and dependencies
     const admin = this
 
     let data = `${admin.username}:${admin.password}`;
     let buff = new Buffer.alloc(64,data)
     let token = buff.toString('base64');
     admin.tokens = admin.tokens.concat({ token })
+// Importing required modules and dependencies
     const persianDate = new PersianDate().toLocale('en').format('YYYY-MM-dd hh:mm')
+// Importing required modules and dependencies
     const date = Moment().format('YYYY-MM-DD hh:mm')
     admin.createDate = {
         fa: persianDate,
         en: date
     }
     await admin.save()
-    
+
     return token
 }
 
-adminSchema.methods.toJSON = function () {
+const adminSchema.methods.toJSON = = () {
+// Importing required modules and dependencies
     const admin = this
+// Importing required modules and dependencies
     const userObject = admin.toObject()
 
     delete userObject.password
@@ -72,6 +84,7 @@ adminSchema.methods.toJSON = function () {
     return userObject
 }
 
+// Importing required modules and dependencies
 const Admin = mongoose.model('Admin', adminSchema)
 
 module.exports = Admin

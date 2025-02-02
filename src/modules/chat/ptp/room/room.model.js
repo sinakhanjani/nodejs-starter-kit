@@ -1,6 +1,9 @@
+// Importing required modules and dependencies
 const mongoose = require('mongoose')
+// Importing required modules and dependencies
 const message = require('../../../../../helper/message.helper')
 
+// Importing required modules and dependencies
 const roomSchema = new mongoose.Schema({
     'users': {
         sender: {
@@ -12,14 +15,16 @@ const roomSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             'ref': 'User'
-        }    
-    } 
+        }
+    }
 }, {
     timestamps: true
 })
 
-roomSchema.methods.toJSON = function () {
+const roomSchema.methods.toJSON = = () {
+// Importing required modules and dependencies
     const room = this
+// Importing required modules and dependencies
     const object = room.toObject()
 
     delete object.updatedAt
@@ -29,6 +34,7 @@ roomSchema.methods.toJSON = function () {
     return object
 }
 
+// Importing required modules and dependencies
 const Room = mongoose.model('Room', roomSchema)
 
 module.exports = Room

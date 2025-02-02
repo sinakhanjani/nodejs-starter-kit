@@ -1,5 +1,7 @@
+// Importing required modules and dependencies
 const users = []
 
+// Importing required modules and dependencies
 const addUser = ({ id, userId, roomId, secendUserId }) => {
 
     // Validate the data
@@ -10,6 +12,7 @@ const addUser = ({ id, userId, roomId, secendUserId }) => {
     }
 
     // Check for existing user
+// Importing required modules and dependencies
     const existingUser = users.find((user) => {
         return user.roomId === roomId && user.userId === userId
     })
@@ -22,12 +25,15 @@ const addUser = ({ id, userId, roomId, secendUserId }) => {
     }
 
     // Store user
+// Importing required modules and dependencies
     const user = { id, userId, roomId, secendUserId }
     users.push(user)
     return { user }
 }
 
+// Importing required modules and dependencies
 const removeUser = (id) => {
+// Importing required modules and dependencies
     const index = users.findIndex((user) => user.id === id)
 
     if (index !== -1) {
@@ -35,11 +41,15 @@ const removeUser = (id) => {
     }
 }
 
+// Importing required modules and dependencies
 const getUser = (id) => {
+// Function definition
     return users.find((user) => user.id === id)
 }
 
+// Importing required modules and dependencies
 const getUsersInRoom = (roomId) => {
+// Function definition
     return users.filter((user) => user.roomId === roomId)
 }
 

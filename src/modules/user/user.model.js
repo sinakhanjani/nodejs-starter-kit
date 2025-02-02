@@ -1,13 +1,23 @@
+// Importing required modules and dependencies
 const mongoose = require('mongoose')
+// Importing required modules and dependencies
 const validator = require('validator')
+// Importing required modules and dependencies
 const bcrypt = require('bcryptjs')
+// Importing required modules and dependencies
 const jwt = require('jsonwebtoken')
+// Importing required modules and dependencies
 const Moment = require('moment')
+// Importing required modules and dependencies
 const PersianDate = require('persian-date')
+// Importing required modules and dependencies
 const message = require('../../../helper/message.helper')
+// Importing required modules and dependencies
 const Task = require('../task/task.model')
+// Importing required modules and dependencies
 const compressJPG = require('../../../helper/sharp.helper')
 
+// Importing required modules and dependencies
 const userSchema = new mongoose.Schema({
     phone: {
         type: String,
@@ -25,7 +35,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
         default: ''
-    },  
+    },
     email: {
         type: String,
         trim: true,
@@ -55,7 +65,7 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    enterType: String, 
+    enterType: String,
     imageURL: {
         baseURL: String,
         thumbURL: String
@@ -91,8 +101,10 @@ userSchema.virtual('tasks', {
     foreignField: 'user'
 })
 
-userSchema.methods.toJSON = function () {
+const userSchema.methods.toJSON = = () {
+// Importing required modules and dependencies
     const user = this
+// Importing required modules and dependencies
     const userObject = user.toObject()
 
     delete userObject.password
@@ -105,34 +117,44 @@ userSchema.methods.toJSON = function () {
     return userObject
 }
 
-userSchema.methods.recordJPG = function(file) {
+const userSchema.methods.recordJPG = = (file) {
+// Importing required modules and dependencies
     const user = this
 
-    user.imageURL.thumbURL = compressJPG(file,300)            
-    user.imageURL.baseURL = `/${file.path}`           
+    user.imageURL.thumbURL = compressJPG(file,300)
+    user.imageURL.baseURL = `/${file.path}`
 }
 
-userSchema.methods.addRecordJPGS = function(files) {
+const userSchema.methods.addRecordJPGS = = (files) {
+// Importing required modules and dependencies
     const user = this
+// Importing required modules and dependencies
     const imagesURL = files.map((file) => {
+// Importing required modules and dependencies
         const baseURL = `/${file.path}`
+// Importing required modules and dependencies
         const thumbURL = compressJPG(file,300)
 
-        return { 
+        return {
             baseURL,
             thumbURL
         }
     })
 
-    user.imagesURL = imagesURL         
+    user.imagesURL = imagesURL
 }
 
-userSchema.methods.createRecordJPGS = function(files) {
+const userSchema.methods.createRecordJPGS = = (files) {
+// Importing required modules and dependencies
     const user = this
+// Importing required modules and dependencies
     const imagesURL = files.map((file) => {
+// Importing required modules and dependencies
         const baseURL = `/${file.path}`
+// Importing required modules and dependencies
         const thumbURL = compressJPG(file,300)
-        const imageURL = { 
+// Importing required modules and dependencies
+        const imageURL = {
             baseURL,
             thumbURL
         }
@@ -140,16 +162,20 @@ userSchema.methods.createRecordJPGS = function(files) {
         return imageURL
     });
 
-    user.imagesURL.push(...imagesURL)        
+    user.imagesURL.push(...imagesURL)
 }
 
-userSchema.methods.generateAuthToken = async function () {
+const userSchema.methods.generateAuthToken = async = () {
+// Importing required modules and dependencies
     const user = this
-    
+
+// Importing required modules and dependencies
     const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
     user.tokens = user.tokens.concat({ token })
 
+// Importing required modules and dependencies
     const persianDate = new PersianDate().toLocale('en').format('YYYY-MM-dd hh:mm')
+// Importing required modules and dependencies
     const date = Moment().format('YYYY-MM-DD hh:mm')
     user.createDate = {
         fa: persianDate,
@@ -162,14 +188,17 @@ userSchema.methods.generateAuthToken = async function () {
 }
 
 // Hash the plain text password before saving
-userSchema.pre('save', async function (next) {
+const userSchema.pre = ('save', async  
+// Importing required modules and dependencies
     const user = this
 
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8)
     }
 
+// Importing required modules and dependencies
     const persianDate = new PersianDate().toLocale('en').format('YYYY-MM-dd hh:mm')
+// Importing required modules and dependencies
     const date = Moment().format('YYYY-MM-DD hh:mm')
     user.createDate = {
         fa: persianDate,
@@ -180,12 +209,14 @@ userSchema.pre('save', async function (next) {
 })
 
 // Delete user task when user is removed
-userSchema.pre('remove', async function (next) {
+const userSchema.pre = ('remove', async  
+// Importing required modules and dependencies
     const user = this
     await Task.deleteMany({ user: user._id })
     next()
 })
 
+// Importing required modules and dependencies
 const User = mongoose.model('User', userSchema)
 
 module.exports = User

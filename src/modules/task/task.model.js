@@ -1,7 +1,11 @@
+// Importing required modules and dependencies
 const mongoose = require('mongoose')
+// Importing required modules and dependencies
 const message = require('../../../helper/message.helper')
+// Importing required modules and dependencies
 const Todo = require('../todo/todo.model')
 
+// Importing required modules and dependencies
 const taskSchema = new mongoose.Schema({
     topic: String,
     description: String,
@@ -21,30 +25,35 @@ taskSchema.virtual('todos', {
     foreignField: 'task'
 })
 
-taskSchema.methods.toJSON = function () {
+const taskSchema.methods.toJSON = = () {
+// Importing required modules and dependencies
     const task = this
+// Importing required modules and dependencies
     const object = task.toObject()
+// Importing required modules and dependencies
     const userId = task.user
-    
+
     object.userId = userId
 
     delete object.updatedAt
     delete object.createdAt
     delete object.__v
     delete object.user
-    
+
     return object
 }
 
 // Delete todo when task is removed
-taskSchema.pre('remove', async function (next) {
+const taskSchema.pre = ('remove', async  
+// Importing required modules and dependencies
     const task = this
     await Todo.deleteMany({ task: task._id })
-    
+
     next()
 })
 
 
+// Importing required modules and dependencies
 const Task = mongoose.model('Task', taskSchema)
 
 module.exports = Task

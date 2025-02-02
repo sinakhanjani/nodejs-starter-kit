@@ -1,9 +1,14 @@
+// Importing required modules and dependencies
 const config = require('config')
+// Importing required modules and dependencies
 const zarinpal = require('../../../helper/zarinpal.helper')
+// Importing required modules and dependencies
 const Payment = require('../payment/payment.model')
 
 class Service {
+// Function definition
     static addPaymentRequest = async (req,res) => {
+// Importing required modules and dependencies
         const bank = await zarinpal.PaymentRequest({
             Amount: req.query.amount, // In Tomans
             CallbackURL: config.get('Customer.zarinpal.redirectURL'),
@@ -11,6 +16,7 @@ class Service {
             Email: config.get('Customer.zarinpal.email'),
             Mobile: config.get('Customer.zarinpal.phone')
           })
+// Importing required modules and dependencies
         const payment = new Payment({
             authority: bank.authority,
             status: false,
@@ -22,26 +28,31 @@ class Service {
           status: 100,
           authority: '000000000000000000000000000000088531',
           url: 'https://sandbox.zarinpal.com/pg/StartPay/000000000000000000000000000000088531'
-        }   
+        }
         */
+// Importing required modules and dependencies
        const pay = await payment.save()
 
        return { pay, payment, bank }
     }
 
+// Function definition
     static checkPaymentVerification = async (req,res) => {
+// Importing required modules and dependencies
         const pay = await Payment.findById({ _id: req.query.trackId })
+// Importing required modules and dependencies
         const bank = await zarinpal.PaymentVerification({
             Amount: pay.amount, // In Tomans
             Authority: pay.authority,
         })
-        /* 
-        { 
-            status: -21, 
+        /*
+        {
+            status: -21,
             RefID: 0
-        } 
+        }
         */
         if (bank.status !== 100 && bank.status !== 101) {
+// Importing required modules and dependencies
             const msg = error(bank.status)
 
             throw new Error(msg)
@@ -60,7 +71,9 @@ class Service {
     }
 }
 
+// Importing required modules and dependencies
 const error = (errorCode) => {
+// Importing required modules and dependencies
     const errors = {
         '-1': 'اطلاعات ارسال شده ناقص است',
         '-2': 'و يا مرچنت كد پذيرنده صحيح نيست IP',

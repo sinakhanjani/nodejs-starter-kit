@@ -1,10 +1,17 @@
+// Importing required modules and dependencies
 const express = require('express')
+// Importing required modules and dependencies
 const error = require('../../middleware/error')
+// Importing required modules and dependencies
 const auth = require('../../middleware/auth')
+// Importing required modules and dependencies
 const admin = require('../../middleware/basicAuth')
+// Importing required modules and dependencies
 const multer = require('../../../helper/multer.helper')
+// Importing required modules and dependencies
 const { get , add , remove , update , removeMe , me, removeDocuments, addImages, sendCode, verifyCode, removeImages, createImages, tasks , addPurchase } = require('../user/user.controller')
 
+// Importing required modules and dependencies
 const router = new express.Router()
 
 // Admin

@@ -1,5 +1,7 @@
+// Importing required modules and dependencies
 const mongoose = require('mongoose')
 
+// Importing required modules and dependencies
 const paymentSchema = new mongoose.Schema({
     phone: {
         type: String,
@@ -23,8 +25,10 @@ const paymentSchema = new mongoose.Schema({
     timestamps: true
 })
 
-paymentSchema.methods.toJSON = function () {
+const paymentSchema.methods.toJSON = = () {
+// Importing required modules and dependencies
     const payment = this
+// Importing required modules and dependencies
     const object = payment.toObject()
 
     delete object._id
@@ -35,6 +39,7 @@ paymentSchema.methods.toJSON = function () {
     return object
 }
 
+// Importing required modules and dependencies
 const Payment = mongoose.model('Payment', paymentSchema)
 
 module.exports = Payment

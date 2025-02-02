@@ -1,10 +1,16 @@
+// Importing required modules and dependencies
 const message = require('../../../helper/message.helper')
+// Importing required modules and dependencies
 const Service = require('../admin/admin.service')
 
+// Function definition
 get = async (req, res) => {
-    try {        
+    try {
+// Importing required modules and dependencies
         const admins = await Service.adminsList(req,res)
+// Importing required modules and dependencies
         const records = admins.length
+// Importing required modules and dependencies
         const response = res.Response.add({ admins })
         .withMessage(message.success.res)
         .addRecord(records)
@@ -13,6 +19,7 @@ get = async (req, res) => {
         .status(200)
         .send(response)
     } catch (e) {
+// Importing required modules and dependencies
         const response = res.Response.unknown()
 
         res
@@ -21,17 +28,20 @@ get = async (req, res) => {
     }
 }
 
+// Function definition
 add = async (req, res) => {
     try {
+// Importing required modules and dependencies
         const addAdmin = await Service.addAdmin(req,res)
+// Importing required modules and dependencies
         const response = res.Response
         .add(addAdmin)
         .withMessage(message.added.res)
-        
+
         res
         .status(201)
         .send(response)
-    } catch (e) {        
+    } catch (e) {
         let msg = ''
         if (e.errors) {
             if (e.errors.password) {
@@ -45,6 +55,7 @@ add = async (req, res) => {
                 msg = message.duplicated.res
             }
         }
+// Importing required modules and dependencies
         const response = res.Response.unSuccess(msg)
 
         res

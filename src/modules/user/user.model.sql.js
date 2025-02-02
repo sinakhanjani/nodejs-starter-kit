@@ -1,4 +1,6 @@
+// Importing required modules and dependencies
 const sequelizeORM = require('../../../db/sequelizeORM')
+// Importing required modules and dependencies
 const { Sequelize } = require('sequelize');
 
 //VALIDATION MODEL:
@@ -6,6 +8,7 @@ const { Sequelize } = require('sequelize');
 
 //Advanced M:N Associations "Super Many-to-Many association"
 //https://sequelize.org/master/manual/advanced-many-to-many.html
+// Importing required modules and dependencies
 const User = sequelizeORM.define('User', {
     id: {
       type: Sequelize.UUID,
@@ -31,15 +34,19 @@ const User = sequelizeORM.define('User', {
 },{
   timestamps: true,
   hooks: {
+// Function definition
     beforeValidate: () => {
       //
     },
+// Function definition
     afterValidate: () => {
       //
     },
+// Function definition
     beforecreate: () => {
       //
     },
+// Function definition
     afterCreate: () => {
       //
     }
@@ -49,6 +56,7 @@ const User = sequelizeORM.define('User', {
   logging: console.log,
   force: true // Drop table every changed - must beremoved after test.
 })
+// Function definition
 .then(() => {
   // CRUD anythings
   // MARK: - Create:
@@ -57,10 +65,12 @@ const User = sequelizeORM.define('User', {
   //     name: 'sina',
   //     phone: '09125933044'
   //   }
+// Function definition
   // ).then((user) => {
 
   // })
   // MARK: Add multi users from json to database in one.
+// Function definition
   // User.bulkCreate(_USERS).then((users) => {
   //   //
   // })

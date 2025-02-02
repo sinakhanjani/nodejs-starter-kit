@@ -1,3 +1,4 @@
+// Importing required modules and dependencies
 const generateMessage = (username, text) => {
     return {
         username,
@@ -6,6 +7,7 @@ const generateMessage = (username, text) => {
     }
 }
 
+// Importing required modules and dependencies
 const generateLocationMessage = (username, url) => {
     return {
         username,

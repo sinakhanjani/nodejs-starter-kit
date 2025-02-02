@@ -3,11 +3,12 @@
 // const config = require('config')
 // const Payment = require('./payment.model')
 
+// Function definition
 // const paymentRequest = async (req, res, next) => {
-    
+
 //     if (!req.query.amount) {
 //         const response = res.Response.unSuccess(message.badInput.res)
-        
+
 //         return res
 //         .status(500)
 //         .send(response)
@@ -19,13 +20,14 @@
 //         Description: config.get('Customer.zarinpal.description'),
 //         Email: config.get('Customer.zarinpal.email'),
 //         Mobile: config.get('Customer.zarinpal.phone')
+// Function definition
 //       }).then(bank => {
 //         /*
 //         {
 //           status: 100,
 //           authority: '000000000000000000000000000000088531',
 //           url: 'https://sandbox.zarinpal.com/pg/StartPay/000000000000000000000000000000088531'
-//         }   
+//         }
 //         */
 //         if (bank.status === 100) {
 //             const payment = new Payment({
@@ -35,6 +37,7 @@
 //                 amount: req.query.amount
 //             })
 
+// Function definition
 //             payment.save().then((pay) => {
 //                 const response = res.Response.add({
 //                     payment: {
@@ -43,12 +46,13 @@
 //                         trackId: pay._id.toString()
 //                     }
 //                 })
-            
+
 //                 return res
 //                 .status(200)
 //                 .send(response)
 //             })
 //         }
+// Function definition
 //     }).catch(err => {
 //         const response = res.Response.unknown()
 
@@ -58,6 +62,7 @@
 //     });
 // }
 
+// Function definition
 // const paymentVerification = async (req, res, next) => {
 //     if (!req.query.trackId) {
 //         const response = res.Response.unSuccess(message.badInput.res)
@@ -66,22 +71,24 @@
 //         .status(500)
 //         .send(response)
 //     }
+// Function definition
 //     Payment.findById({ _id: req.query.trackId }).then((pay) => {
 //         zarinpal.PaymentVerification({
 //             Amount: pay.amount, // In Tomans
 //             Authority: pay.authority,
+// Function definition
 //           }).then(bank => {
 //               //
-//             /* 
-//             { 
-//               status: -21, 
+//             /*
+//             {
+//               status: -21,
 //               RefID: 0
-//             } 
+//             }
 //             */
 //             if (bank.status !== 100 && bank.status !== 101) {
 //                 const msg = error(bank.status)
 //                 const response = res.Response.unSuccess(msg)
-    
+
 //                 res
 //                 .status(400)
 //                 .send(response)
@@ -99,22 +106,26 @@
 
 //                 res
 //                 .status(200)
-//                 .send(response) 
+//                 .send(response)
 //             }
-    
+
+// Function definition
 //         }).catch(err => {
 //             console.error(err)
 //         });
 //     })
 // }
 
+// Function definition
 // const unverifiedTransactions = async (req, res, next) => {
+// Function definition
 //     zarinpal.UnverifiedTransactions().then((response) => {
 
 //         if (response.status === 100) {
 //             console.log(response.authorities)
 //         }
 
+// Function definition
 //     }).catch(err => {
 //         console.error(err)
 //     })

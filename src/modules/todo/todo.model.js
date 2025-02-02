@@ -1,6 +1,9 @@
+// Importing required modules and dependencies
 const mongoose = require('mongoose')
+// Importing required modules and dependencies
 const message = require('../../../helper/message.helper')
 
+// Importing required modules and dependencies
 const todoSchema = new mongoose.Schema({
     topic: String,
     description: String,
@@ -18,8 +21,10 @@ const todoSchema = new mongoose.Schema({
     timestamps: true
 })
 
-todoSchema.methods.toJSON = function () {
+const todoSchema.methods.toJSON = = () {
+// Importing required modules and dependencies
     const todo = this
+// Importing required modules and dependencies
     const object = todo.toObject()
 
     object.taskId = todo.task
@@ -33,6 +38,7 @@ todoSchema.methods.toJSON = function () {
     return object
 }
 
+// Importing required modules and dependencies
 const Task = mongoose.model('Todo', todoSchema)
 
 module.exports = Task

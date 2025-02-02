@@ -1,6 +1,7 @@
+// Importing required modules and dependencies
 const message = require('../../helper/message.helper')
 
-class Response {  
+class Response {
     res = {
         status: true,
         data: null,
@@ -19,7 +20,7 @@ class Response {
      }
 
     add(data) {
-        this.res.data = data 
+        this.res.data = data
         this.res.status = true
         this.res.message = 'success'
         this.res.records = undefined
